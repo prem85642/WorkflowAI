@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - WorkflowAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <span>🧠</span> WorkflowAI
+        </div>
+        <nav>
+            <a href="/">Voice Input</a>
+            <a href="/dashboard" class="active">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="dashboard-grid">
+            <!-- Left Column: MoM & Tasks -->
+            <div class="main-content">
+
+                <!-- Latest MoM -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">📄 Latest Meeting Report</span>
+                        <button onclick="loadLatestMeeting()" style="font-size:0.8rem; cursor:pointer;">Refresh</button>
+                    </div>
+                    <div id="mom-content">
+                        <p class="text-muted">Loading latest meeting data...</p>
+                    </div>
+                </div>
+
+                <!-- Task Board -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">✅ Task Assignment Board</span>
+                        <div class="filters">
+                            <!-- Future filters -->
+                        </div>
+                    </div>
+                    <ul id="task-list" class="task-list">
+                        <p class="text-muted">Loading tasks...</p>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Analytics -->
+            <div class="analytics-sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">📊 Cognitive Analytics</span>
+                    </div>
+                    <div style="height: 250px;">
+                        <canvas id="riskChart"></canvas>
+                    </div>
+                    <div style="margin-top: 1rem;">
+                        <p style="font-size: 0.9rem; color: #666;">
+                            <strong>Risk Analysis:</strong> Based on task priority and strictness of deadlines.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">🚀 Priority Recommendation</span>
+                    </div>
+                    <div id="priority-insight">
+                        <p class="text-muted"> Analyzing...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}?v=3"></script>
+</body>
+
+</html>

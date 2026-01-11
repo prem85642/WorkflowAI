@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual Cognitive Workflow Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <span>🧠</span> WorkflowAI
+        </div>
+        <nav>
+            <a href="/" class="active">Voice Input</a>
+            <a href="/dashboard">Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="recorder-section">
+            <h2>Start Meeting Recording</h2>
+            <p class="text-muted">Speak in Hindi, English, or Dogri. We'll handle the rest.</p>
+
+            <label for="lang-select">Select Spoken Language:</label>
+            <select id="lang-select" style="padding: 8px; border-radius: 5px; width: 100%;">
+                <optgroup label="Common">
+                    <option value="en-US">English (Global)</option>
+                    <option value="hi-IN">Hindi (India)</option>
+                </optgroup>
+
+                <optgroup label="Indian Languages">
+                    <option value="bn-IN">Bengali (বাংলা)</option>
+                    <option value="gu-IN">Gujarati (ગુજરાતી)</option>
+                    <option value="mr-IN">Marathi (मराठी)</option>
+                    <option value="ta-IN">Tamil (தமிழ்)</option>
+                    <option value="te-IN">Telugu (తెలుగు)</option>
+                    <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+                    <option value="ml-IN">Malayalam (മലയാളം)</option>
+                    <option value="pa-IN">Punjabi (ਪੰਜਾਬੀ)</option>
+                    <option value="ur-IN">Urdu (اردو)</option>
+                </optgroup>
+
+                <optgroup label="International Languages">
+                    <option value="es-ES">Spanish (Español)</option>
+                    <option value="fr-FR">French (Français)</option>
+                    <option value="de-DE">German (Deutsch)</option>
+                    <option value="ja-JP">Japanese (日本語)</option>
+                    <option value="zh-CN">Chinese (Mandarin)</option>
+                    <option value="ru-RU">Russian (Русский)</option>
+                    <option value="ar-SA">Arabic (العربية)</option>
+                </optgroup>
+            </select>
+            <br><small>System will auto-translate any of these to English for processing.</small>
+        </div>
+
+        <button id="recordBtn" class="mic-btn">
+            🎤
+        </button>
+        <div id="status" class="status-indicator">Ready to record</div>
+
+        <div class="transcript-area">
+            <h3>Live Transcript</h3>
+            <div id="final-transcript" class="transcript-box"></div>
+            <div id="interim-transcript" style="color: gray; font-style: italic;"></div>
+
+            <div style="margin-top: 1rem; text-align: right;">
+                <input type="text" id="hf-token-input" placeholder="Paste HF Token (Optional)"
+                    style="padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
+                <button id="processBtn"
+                    style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    Generate MoM & Tasks
+                </button>
+            </div>
+        </div>
+
+        <div id="api-result" style="margin-top:20px; display:none;" class="card">
+            <h3>Processing Result</h3>
+            <p><strong>Detected Language:</strong> <span id="res-lang"></span></p>
+            <p><strong>Translation:</strong> <span id="res-trans"></span></p>
+            <div style="background: #e0f2fe; padding: 10px; border-radius: 5px; margin-top: 10px;">
+                <a href="/dashboard" style="font-weight: bold; color: #0369a1;">View Full Report & Tasks on
+                    Dashboard &rarr;</a>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
+</body>
+
+</html>
