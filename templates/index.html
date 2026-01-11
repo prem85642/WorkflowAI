@@ -64,6 +64,17 @@
         </button>
         <div id="status" class="status-indicator">Ready to record</div>
 
+        <!-- Debug Log Area -->
+        <div style="margin-top: 10px; width: 100%; max-width: 600px; text-align: left;">
+            <button onclick="toggleDebug()"
+                style="font-size: 0.8rem; text-decoration: underline; background: none; border: none; cursor: pointer; color: #555;">Toggle
+                Debug Logs</button>
+            <div id="debug-log"
+                style="display:none; background: #f0f0f0; padding: 10px; border: 1px solid #ccc; font-family: monospace; font-size: 0.8rem; height: 150px; overflow-y: auto; color: #333;">
+                <div>[System] Debug logs initialized...</div>
+            </div>
+        </div>
+
         <div class="transcript-area">
             <h3>Live Transcript</h3>
             <div id="final-transcript" class="transcript-box"></div>
@@ -91,7 +102,7 @@
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='js/script.js') }}?v=3"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}?v=4"></script>
 </body>
 
 </html>
