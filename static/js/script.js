@@ -1,4 +1,4 @@
-// script.js - v4 (Debug Mode)
+// script.js - v5 (Explicit Language Support)
 
 const recordBtn = document.getElementById('recordBtn');
 const finalTranscriptEl = document.getElementById('final-transcript');
@@ -30,9 +30,9 @@ function logDebug(msg) {
 }
 
 window.toggleDebug = function () {
-    if (debugLog.style.display === 'none') {
+    if (debugLog && debugLog.style.display === 'none') {
         debugLog.style.display = 'block';
-    } else {
+    } else if (debugLog) {
         debugLog.style.display = 'none';
     }
 };
@@ -66,7 +66,6 @@ if (SpeechRecognition) {
     };
 
     recognition.onresult = function (event) {
-        logDebug(`Event: onresult (Results: ${event.results.length})`);
         let interimTranscript = '';
         for (let i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -99,15 +98,9 @@ if (SpeechRecognition) {
         statusEl.style.color = "red";
     };
 
-    // Diagnostic events
-    recognition.onaudiostart = () => logDebug("Event: onaudiostart (Audio input detected)");
-    recognition.onsoundstart = () => logDebug("Event: onsoundstart (Sound detected)");
-    recognition.onspeechstart = () => logDebug("Event: onspeechstart (Speech detected)");
-    recognition.onnomatch = () => logDebug("Event: onnomatch (No recognition match)");
-
 } else {
     logDebug("CRITICAL: Web Speech API NOT supported in this browser.");
-    alert("Voice functionalities will NOT work in this browser. Please use Google Chrome or Microsoft Edge.");
+    alert("Voice functionalities will NOT work in this browser. Please use Chrome.");
     statusEl.textContent = "Browser Not Supported. Use Chrome/Edge.";
     recordBtn.disabled = true;
 }
@@ -121,11 +114,8 @@ recordBtn.addEventListener('click', () => {
     }
 
     if (isRecording) {
-        logDebug("Stopping recording...");
         recognition.stop();
     } else {
-        logDebug("Starting recording...");
-
         // Reset buffers
         finalTranscript = '';
         finalTranscriptEl.innerText = '';
@@ -133,7 +123,7 @@ recordBtn.addEventListener('click', () => {
 
         // Update language
         const selectedLang = langSelect.value;
-        recognition.lang = selectedLang;
+        recognition.lang = selectedLang; // Tell browser which language to listen for
         logDebug(`Language set to: ${selectedLang}`);
 
         try {
@@ -147,7 +137,9 @@ recordBtn.addEventListener('click', () => {
 
 processBtn.addEventListener('click', () => {
     const text = finalTranscriptEl.innerText.trim();
-    logDebug(`Process Clicked. Text length: ${text.length}`);
+    const selectedLang = langSelect.value; // Capture selected language code (e.g., 'hi-IN', 'fr-FR')
+
+    logDebug(`Process Clicked. Text length: ${text.length}, Source Lang: ${selectedLang}`);
 
     if (!text) {
         alert("Please record some text first.");
@@ -163,6 +155,7 @@ processBtn.addEventListener('click', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             text: text,
+            source_lang_code: selectedLang, // SENDING THIS TO BACKEND
             hf_token: hfTokenInput.value.trim()
         })
     })

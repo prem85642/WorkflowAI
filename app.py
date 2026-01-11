@@ -33,12 +33,17 @@ def process_voice():
             
         logging.info(f"Processing text of length {len(raw_text)}")
         
-        # 1. Detect Language
+        # 0. Get Explicit Language from Frontend
+        source_lang_code = data.get('source_lang_code', 'auto')
+        logging.info(f"Source Language Provided: {source_lang_code}")
+
+        # 1. Detect Language (Fallback or confirmation)
         lang = services.detect_language(raw_text)
-        logging.info(f"Detected language: {lang}")
+        logging.info(f"Detected language (Algo): {lang}")
         
-        # 2. Translate to English
-        translated_text = services.translate_text(raw_text, target_lang='en')
+        # 2. Translate to English (Using Explicit Source if available)
+        # We pass source_lang_code to the translator to avoid guessing errors
+        translated_text = services.translate_text(raw_text, target_lang='en', source_lang=source_lang_code)
         logging.info(f"Translated text: {translated_text[:50]}...")
         
         # 3. Generate MoM (Summary, Key Points, Actions)

@@ -16,12 +16,19 @@ def detect_language(text):
     except:
         return "unknown"
 
-def translate_text(text, target_lang='en'):
+def translate_text(text, target_lang='en', source_lang='auto'):
     try:
         if not text:
             return ""
-        # Simply translate to target_lang using Google Translator
-        translated = GoogleTranslator(source='auto', target=target_lang).translate(text)
+        
+        # Clean language code (e.g. 'hi-IN' -> 'hi')
+        if source_lang and '-' in source_lang and source_lang != 'auto':
+            source_lang = source_lang.split('-')[0]
+            
+        print(f"Translating from {source_lang} to {target_lang}")
+        
+        # Translate
+        translated = GoogleTranslator(source=source_lang, target=target_lang).translate(text)
         return translated
     except Exception as e:
         print(f"Translation error: {e}")
